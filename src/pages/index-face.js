@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button, Header } from 'semantic-ui-react'
 
 import Layout from '../components/layout'
+import DrapDrop from '../components/drapdrop'
 
 const IndexFacePage = () => {
   const [fileInputRef, setFileInputRef] = useState()
@@ -23,7 +24,9 @@ const IndexFacePage = () => {
         onChange={fileChange}
       />
 
-      <Button content="listFaces" onClick={listFaces} />
+      <Button content="List Faces" onClick={listFaces} />
+
+      <DrapDrop />
     </Layout>
   )
 }

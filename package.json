@@ -10,6 +10,7 @@
     "less": "^3.8.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-dropzone": "^10.1.8",
     "react-helmet": "^5.2.0",
     "semantic-ui-less": "^2.3.3",
     "semantic-ui-react": "^0.82.1"
