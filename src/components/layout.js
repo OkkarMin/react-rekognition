@@ -10,7 +10,9 @@ import 'semantic-ui-less/semantic.less'
 import { Link } from 'gatsby'
 
 const LinkedItem = ({ children, ...props }) => (
-  <Menu.Item as={Link} activeClassName='active' {...props}>{children}</Menu.Item>
+  <Menu.Item as={Link} activeClassName="active" {...props}>
+    {children}
+  </Menu.Item>
 )
 
 const Layout = ({ children, data }) => (
@@ -40,9 +42,13 @@ const Layout = ({ children, data }) => (
           <Grid relaxed stackable>
             <Grid.Column mobile={16} tablet={4} computer={4}>
               <Menu vertical fluid>
-                <LinkedItem to='/' exact>Home</LinkedItem>
-                <LinkedItem to='/page-2'>Second Page</LinkedItem>
-                <LinkedItem to='/404'>404 Example Page</LinkedItem>
+                <LinkedItem to="/" exact>
+                  Home
+                </LinkedItem>
+                <LinkedItem to="/index-face">Index Face</LinkedItem>
+                <LinkedItem to="/page-2">Second Page</LinkedItem>
+                <LinkedItem to="/404">404 Example Page</LinkedItem>
+                <LinkedItem to="/login">Login Page</LinkedItem>
               </Menu>
             </Grid.Column>
 

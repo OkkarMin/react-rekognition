@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby Semantic UI Starter',
+    title: 'ASEFaceRekognition',
   },
   plugins: ['gatsby-plugin-react-helmet', 'gatsby-plugin-less'],
 }
