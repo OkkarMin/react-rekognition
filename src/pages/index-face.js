@@ -4,6 +4,8 @@ import { Button, Header } from 'semantic-ui-react'
 import Layout from '../components/layout'
 import DrapDrop from '../components/drapdrop'
 
+const url = 'http://ec2-3-15-165-103.us-east-2.compute.amazonaws.com/api'
+
 const IndexFacePage = () => {
   const [fileInputRef, setFileInputRef] = useState()
 
@@ -32,33 +34,44 @@ const IndexFacePage = () => {
 }
 
 const fileChange = async e => {
-  let data = new FormData()
+  let form = new FormData()
   let image = e.target.files[0]
-  data.append('body', { collectionName: 'Students', name: 'reactTest1' })
-  data.append('file', image)
+  let imageInBase64 = await getBase64Stripped(image)
 
-  let response = await fetch(
-    'http://ec2-3-15-165-103.us-east-2.compute.amazonaws.com/api/indexFaces',
-    {
-      method: 'POST',
-      body: data,
-    }
-  )
-
-  console.log(response)
+  console.log(imageInBase64)
 }
 
 const listFaces = async () => {
-  let response = await fetch(
-    'http://ec2-3-15-165-103.us-east-2.compute.amazonaws.com/api/listFaces/Students',
-    {
-      method: 'GET',
-    }
-  )
+  let response = await fetch(`${url}/listFaces/CZ3002Yr2019Sem1`)
 
   let result = await response.json()
-
   console.log(result)
+  // let { Faces } = result
+  // Faces.map(face => console.log(face.ExternalImageId))
+}
+
+const getBase64 = file => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = error => reject(error)
+  })
+}
+
+function getBase64Stripped(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      let encoded = reader.result.toString().replace(/^data:(.*,)?/, '')
+      if (encoded.length % 4 > 0) {
+        encoded += '='.repeat(4 - (encoded.length % 4))
+      }
+      resolve(encoded)
+    }
+    reader.onerror = error => reject(error)
+  })
 }
 
 export default IndexFacePage

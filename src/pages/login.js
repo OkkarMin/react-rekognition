@@ -2,13 +2,17 @@ import React, { useState } from 'react'
 import { navigate } from 'gatsby'
 import {
   Button,
+  Container,
   Form,
   Grid,
-  Header,
   Image,
   Message,
   Segment,
 } from 'semantic-ui-react'
+
+import LoginErrorMessage from '../components/LoginErrorMessage'
+
+const logo = require('../assets/face-recognition.svg')
 
 const LoginPage = () => {
   const [username, setUsername] = useState('')
@@ -16,19 +20,21 @@ const LoginPage = () => {
   const [error, setError] = useState(false)
 
   return (
-    <Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
+    <Grid
+      centered
+      textAlign="center"
+      verticalAlign="middle"
+      style={{ height: '100vh' }}
+    >
       <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as="h2" color="primary" textAlign="center">
-          {/* <Image src='/logo.png' />  */}
-          Log-in to Rekognition
-        </Header>
+        <Image src={logo} centered size="small" />
         <Form size="large">
           <Segment stacked>
             <Form.Input
               fluid
               icon="user"
               iconPosition="left"
-              placeholder="E-mail address"
+              placeholder="NTU E-mail address"
               onChange={event => setUsername(event.target.value)}
             />
             <Form.Input
@@ -41,7 +47,7 @@ const LoginPage = () => {
             />
 
             <Button
-              color="primary"
+              primary
               fluid
               size="large"
               onClick={() => {
@@ -57,14 +63,7 @@ const LoginPage = () => {
           </Segment>
         </Form>
 
-        {error && (
-          <Message negative>
-            <Message.Header>
-              We're sorry we can't find that account
-            </Message.Header>
-            <p>Check with CITS</p>
-          </Message>
-        )}
+        <LoginErrorMessage loginError={error} />
       </Grid.Column>
     </Grid>
   )
