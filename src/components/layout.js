@@ -1,11 +1,10 @@
 import React from 'react'
-import { StaticQuery, graphql } from 'gatsby'
+import { StaticQuery, graphql, Link } from 'gatsby'
 import { Container, Grid, Menu } from 'semantic-ui-react'
 
 import Header from './header'
 
 import 'semantic-ui-less/semantic.less'
-import { Link } from 'gatsby'
 
 const LinkedItem = ({ children, ...props }) => (
   <Menu.Item as={Link} activeClassName="active" {...props}>
@@ -36,6 +35,7 @@ const Layout = ({ children, data }) => (
                   Home
                 </LinkedItem>
                 <LinkedItem to="/index-face">Index Face</LinkedItem>
+                <LinkedItem to="/collections">View Collections</LinkedItem>
                 <LinkedItem to="/page-2">Second Page</LinkedItem>
                 <LinkedItem to="/404">404 Example Page</LinkedItem>
                 <LinkedItem to="/login">Login Page</LinkedItem>
