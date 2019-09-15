@@ -12,6 +12,7 @@ const IndexFacePage = () => {
   return (
     <Layout>
       <Header as="h2">Hello From Index Face</Header>
+
       <Button
         primary
         content="Choose File"
