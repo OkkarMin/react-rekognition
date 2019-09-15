@@ -23,43 +23,52 @@ const IndexFacePage = () => {
         ref={ref => setFileInputRef(ref)}
         type="file"
         hidden
-        onChange={fileChange}
+        onChange={singleImageIndex}
       />
 
       <Button content="List Faces" onClick={listFaces} />
+
+      <Button content="SMS" onClick={sendSMS} />
 
       <DrapDrop />
     </Layout>
   )
 }
 
-const fileChange = async e => {
-  let form = new FormData()
+const singleImageIndex = async e => {
   let image = e.target.files[0]
   let imageInBase64 = await getBase64Stripped(image)
+  let payload = {
+    collectionName: 'Students',
+    name: 'Mountain',
+    image: imageInBase64,
+  }
+  let response
 
-  console.log(imageInBase64)
+  try {
+    response = await fetch(`${url}/indexFaces`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+  } catch (error) {
+    console.log(error)
+  }
+
+  console.log(await response.text())
 }
 
 const listFaces = async () => {
-  let response = await fetch(`${url}/listFaces/CZ3002Yr2019Sem1`)
+  let response = await fetch(`${url}/describeCollection/Students`)
 
   let result = await response.json()
   console.log(result)
-  // let { Faces } = result
-  // Faces.map(face => console.log(face.ExternalImageId))
 }
 
-const getBase64 = file => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => resolve(reader.result)
-    reader.onerror = error => reject(error)
-  })
-}
-
-function getBase64Stripped(file) {
+const getBase64Stripped = file => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.readAsDataURL(file)
@@ -72,6 +81,29 @@ function getBase64Stripped(file) {
     }
     reader.onerror = error => reject(error)
   })
+}
+
+const sendSMS = async () => {
+  let payload = {
+    message: 'Testing API',
+    phoneNumber: '+6596404767',
+  }
+  let response
+
+  try {
+    response = await fetch(`${url}/sendSMS`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+  } catch (error) {
+    console.log(error)
+  }
+
+  console.log(await response.text())
 }
 
 export default IndexFacePage
