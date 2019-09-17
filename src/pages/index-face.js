@@ -44,10 +44,9 @@ const singleImageIndex = async e => {
     name: 'Mountain',
     image: imageInBase64,
   }
-  let response
 
   try {
-    response = await fetch(`${url}/indexFaces`, {
+    let response = await fetch(`${url}/indexFaces`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -55,11 +54,11 @@ const singleImageIndex = async e => {
       },
       body: JSON.stringify(payload),
     })
+
+    console.log(await response.text())
   } catch (error) {
     console.log(error)
   }
-
-  console.log(await response.text())
 }
 
 const listFaces = async () => {
@@ -89,10 +88,9 @@ const sendSMS = async () => {
     message: 'Testing API',
     phoneNumber: '+6596404767',
   }
-  let response
 
   try {
-    response = await fetch(`${url}/sendSMS`, {
+    let response = await fetch(`${url}/sendSMS`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -100,11 +98,11 @@ const sendSMS = async () => {
       },
       body: JSON.stringify(payload),
     })
+
+    console.log(await response.text())
   } catch (error) {
     console.log(error)
   }
-
-  console.log(await response.text())
 }
 
 export default IndexFacePage
