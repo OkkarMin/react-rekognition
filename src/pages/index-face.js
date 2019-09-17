@@ -62,10 +62,14 @@ const singleImageIndex = async e => {
 }
 
 const listFaces = async () => {
-  let response = await fetch(`${url}/describeCollection/Students`)
+  try {
+    let response = await fetch(`${url}/describeCollection/Students`)
+    let result = await response.json()
 
-  let result = await response.json()
-  console.log(result)
+    console.log(result)
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 const getBase64Stripped = file => {
