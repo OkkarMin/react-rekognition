@@ -3,11 +3,23 @@ import { Button, Header } from 'semantic-ui-react'
 
 import Layout from '../components/layout'
 import DrapDrop from '../components/drapdrop'
+import FileThumbnails from '../components/FileThumbnails'
 
 const url = 'http://ec2-3-15-165-103.us-east-2.compute.amazonaws.com/api'
 
 const IndexFacePage = () => {
   const [fileInputRef, setFileInputRef] = useState()
+  const [files, setFiles] = useState(null)
+
+  const onFilesDrop = files => {
+    setFiles(
+      files.map(file =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        })
+      )
+    )
+  }
 
   return (
     <Layout>
@@ -31,7 +43,9 @@ const IndexFacePage = () => {
 
       <Button content="SMS" onClick={sendSMS} />
 
-      <DrapDrop />
+      <DrapDrop onFilesDrop={onFilesDrop} />
+
+      {files && <FileThumbnails files={files} />}
     </Layout>
   )
 }
