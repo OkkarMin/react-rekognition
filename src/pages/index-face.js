@@ -47,6 +47,8 @@ const IndexFacePage = () => {
 
       <Button content="List Faces" onClick={listFaces} />
 
+      <Button content="List Collections" onClick={listCollections} />
+
       <Button content="SMS" onClick={sendSMS} />
 
       <DrapDrop onFilesDrop={onFilesDrop} />
@@ -99,16 +101,28 @@ const singleImageIndex = async file => {
   }
 }
 
-const listFaces = async () => {
+const listCollections = async () => {
   try {
-    let response = await fetch(`${url}/listFaces/Students`)
+    let response = await fetch(`${url}/listCollections`)
     let result = await response.json()
 
-    result.Faces.map(face => {
-      if (face.ExternalImageId.startsWith('U')) {
-        console.log(face.ExternalImageId)
-      }
-    })
+    console.log(result)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const listFaces = async () => {
+  try {
+    let response = await fetch(`${url}/listFaces/CZ3002Yr2019Sem1`)
+    let result = await response.json()
+
+    // result.Faces.map(face => {
+    //   if (face.ExternalImageId.startsWith('U')) {
+    //     console.log(face.ExternalImageId)
+    //   }
+    // })
+    console.log(result)
   } catch (error) {
     console.log(error)
   }
