@@ -38,7 +38,7 @@ const Layout = ({ children, data }) => (
                   Create Collection
                 </LinkedItem>
                 <LinkedItem to="/collections">View Collections</LinkedItem>
-                <LinkedItem to="/page-2">Second Page</LinkedItem>
+                <LinkedItem to="/rekognize">Recognize</LinkedItem>
                 <LinkedItem to="/404">404 Example Page</LinkedItem>
                 <LinkedItem to="/login">Login Page</LinkedItem>
               </Menu>
