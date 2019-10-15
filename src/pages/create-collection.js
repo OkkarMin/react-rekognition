@@ -11,6 +11,7 @@ const IndexFacePage = () => {
   const [files, setFiles] = useState(null)
   const [isUploading, setIsUploading] = useState(false)
   const [uploadPercent, setUploadPercent] = useState(0)
+  const [collectionName, setCollectionName] = useState('')
 
   const onFilesDrop = files => {
     setFiles(
@@ -20,12 +21,13 @@ const IndexFacePage = () => {
         })
       )
     )
+    let folderName = files[0].path.split('/')[1]
+    setCollectionName(folderName)
   }
 
   const onUpload = async () => {
     setIsUploading(true)
     let numberOfFiles = files.length
-    let percentIncrement = 100 / numberOfFiles
 
     await Promise.all(
       files.map(async file => {
@@ -33,21 +35,18 @@ const IndexFacePage = () => {
       })
     )
 
-    for (let i = 0; i <= numberOfFiles; i++) {
-      await new Promise(resolve =>
-        setTimeout(resolve, Math.floor(Math.random() * 800) + 300)
-      )
-      setUploadPercent(percentIncrement * i)
-    }
+    updateUploadPercent(numberOfFiles, setUploadPercent)
   }
 
   return (
     <Layout>
-      <Header as="h2">Hello From Index Face</Header>
+      <Header as="h2">Create Collection</Header>
 
-      <Button content="List Faces" onClick={listFaces} />
+      <Button content="List Faces" onClick={() => listFaces('Students')} />
 
-      <Button content="SMS" onClick={sendSMS} />
+      <Button content="List Collections" onClick={() => listCollections()} />
+
+      <Button content="SMS" onClick={() => sendSMS()} />
 
       <DrapDrop onFilesDrop={onFilesDrop} />
 
@@ -59,18 +58,33 @@ const IndexFacePage = () => {
             content="Upload"
             labelPosition="right"
             icon="upload"
-            onClick={onUpload}
+            onClick={() => onUpload()}
           />
 
           {isUploading && (
-            <Progress percent={uploadPercent} indicating autoSuccess />
+            <Progress percent={uploadPercent} indicating autoSuccess>
+              {uploadPercent >= 100 && <span>Uploading Done!</span>}
+            </Progress>
           )}
+
+          <Header as="h3">{collectionName}</Header>
 
           <FileThumbnails files={files} />
         </>
       )}
     </Layout>
   )
+}
+
+const updateUploadPercent = async (numberOfFiles, setUploadPercent) => {
+  let percentIncrement = 100 / numberOfFiles
+
+  for (let i = 0; i <= numberOfFiles; i++) {
+    await new Promise(resolve =>
+      setTimeout(resolve, Math.floor(Math.random() * 500) + 200)
+    )
+    setUploadPercent(percentIncrement * i)
+  }
 }
 
 const singleImageIndex = async file => {
@@ -99,16 +113,23 @@ const singleImageIndex = async file => {
   }
 }
 
-const listFaces = async () => {
+const listCollections = async () => {
   try {
-    let response = await fetch(`${url}/listFaces/Students`)
+    let response = await fetch(`${url}/listCollections`)
     let result = await response.json()
 
-    result.Faces.map(face => {
-      if (face.ExternalImageId.startsWith('U')) {
-        console.log(face.ExternalImageId)
-      }
-    })
+    console.log(result)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const listFaces = async collectionName => {
+  try {
+    let response = await fetch(`${url}/listFaces/${collectionName}`)
+    let result = await response.json()
+
+    console.log(result)
   } catch (error) {
     console.log(error)
   }

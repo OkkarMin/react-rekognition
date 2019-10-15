@@ -15,8 +15,8 @@ const FileThumbnails = ({ files }) => {
       </Table.Header>
 
       <Table.Body>
-        {files.map(file => (
-          <FileThumbnailRow file={file} />
+        {files.map((file, index) => (
+          <FileThumbnailRow file={file} key={index} />
         ))}
       </Table.Body>
     </Table>
