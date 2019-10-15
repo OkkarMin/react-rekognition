@@ -35,6 +35,7 @@ const Layout = ({ children, data }) => (
                   Home
                 </LinkedItem>
                 <LinkedItem to="/index-face">Index Face</LinkedItem>
+                <LinkedItem to="/view-attendance">View Attendance</LinkedItem>
                 <LinkedItem to="/collections">View Collections</LinkedItem>
                 <LinkedItem to="/page-2">Second Page</LinkedItem>
                 <LinkedItem to="/404">404 Example Page</LinkedItem>
