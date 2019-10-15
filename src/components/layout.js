@@ -34,7 +34,9 @@ const Layout = ({ children, data }) => (
                 <LinkedItem to="/" exact>
                   Home
                 </LinkedItem>
-                <LinkedItem to="/index-face">Index Face</LinkedItem>
+                <LinkedItem to="/create-collection">
+                  Create Collection
+                </LinkedItem>
                 <LinkedItem to="/collections">View Collections</LinkedItem>
                 <LinkedItem to="/page-2">Second Page</LinkedItem>
                 <LinkedItem to="/404">404 Example Page</LinkedItem>
