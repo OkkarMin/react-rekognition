@@ -44,7 +44,7 @@ const RekognizePage = () => {
           <Button
             content="Detect Faces"
             floated="right"
-            onClick={() => onRekognize()}
+            onClick={() => onDetectFaces()}
           />
         </>
       )}
