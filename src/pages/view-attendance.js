@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Button } from 'semantic-ui-react'
+import React, { useState, useEffect } from 'react'
+import { Loader } from 'semantic-ui-react'
 
 import MUIDataTable from 'mui-datatables'
 
@@ -7,8 +7,24 @@ import Layout from '../components/layout'
 
 const url = 'http://ec2-3-15-165-103.us-east-2.compute.amazonaws.com/api'
 
-//const columns = [ "Status", "Matriculation No."];
+// const courseOptions = [
+//   { key: 'TSA1', text: 'TSA1', value: 'TSA1' },
+//   { key: 'f', text: 'Female', value: 'female' },
+// ]
+// const groupOptions = [
+//   { key: 'a', text: 'A', value: 'a' },
+//   { key: 'b', text: 'B', value: 'b' },
+// ]
+//const columns = [ "Status", "Matriculation No.","GroupID","Course Code"];
 const columns = [
+  {
+    name: 'matriculation No.',
+    label: 'Matriculation No.',
+    options: {
+      filter: false,
+      sort: false,
+    },
+  },
   {
     name: 'status',
     label: 'Status',
@@ -18,87 +34,93 @@ const columns = [
     },
   },
   {
-    name: 'matriculation No.',
-    label: 'Matriculation No.',
+    name: 'group ID',
+    label: 'Group ID',
     options: {
-      filter: false,
-      sort: false,
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: 'course code',
+    label: 'Course Code',
+    options: {
+      filter: true,
+      sort: true,
     },
   },
 ]
-
-// const data = [
-//   ["Joe James", "Test Corp", "Yonkers"],
-//   ["John Walsh", "Test Corp", "Hartford"],
-//   ["Bob Herm", "no", "Tampa"],
-//   ["James Houston", "no", "Dallas"],
-// ];
-
-// const data = async(matricNo) => {
-//   try {
-//     let response = await fetch(`${url}/getStudentAttendance/CZ3002/2019/1/${matricNo}`)
-//     let result = await response.json()
-//
-//     console.log(result)
-//     const resultData = [["asdasd","sadasd"],["asdasd","hello"]]
-//     // // const resultData = ["sad"]
-//     // // resultData.push("sad")
-//     // return resultData
-//     // resultData.push(String(result[1].status))
-//     // resultData.push(String(result[1].matricNo))
-//     console.log(resultData)
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
 
 const options = {
   filterType: 'checkbox',
 }
 
 const ViewAttendancePage = () => {
-  const [data, setData] = useState([])
+  const [data, setData] = useState(null)
+
+  useEffect(() => {
+    getAttendanceData(setData)
+  }, [])
 
   return (
     <Layout>
-      <Button
-        content="Get Data"
-        primary
-        fluid
-        onClick={() => onButtonClick('U1721870L', setData)}
-      />
-
-      <MUIDataTable
-        title={'Attendance List'}
-        data={data}
-        columns={columns}
-        options={options}
-      />
+      {data ? (
+        <MUIDataTable
+          title={'Attendance List'}
+          data={data}
+          columns={columns}
+          options={options}
+        />
+      ) : (
+        <Loader active />
+      )}
     </Layout>
   )
 }
 
-const onButtonClick = async (matricNo, setData) => {
+const fetchAttendanceData = async (courseID, groupID) => {
   try {
-    let data = []
-    let response1 = await fetch(
-      `${url}/getStudentAttendance/CZ3002/2019/1/${matricNo}`
+    let response = await fetch(
+      `${url}/getGroupAttendance/${courseID}/2019/1/${groupID}`
     )
-    let result1 = await response1.json()
+    let result = await response.json()
 
-    result1.forEach(each => {
-      let eachStudentData = []
-      eachStudentData.push(each.status)
-      eachStudentData.push(each.matricNo)
-
-      data.push(eachStudentData)
-    })
-
-    setData(data)
-    console.log(data)
+    return result
   } catch (error) {
     console.log(error)
   }
+}
+
+const getAttendanceData = async setData => {
+  let data = []
+
+  let result1 = await fetchAttendanceData('CZ3000', 'SSA1')
+  let result2 = await fetchAttendanceData('CZ3002', 'TSA1')
+
+  console.log(result1)
+
+  result1.map(each => {
+    let eachStudentData = []
+    eachStudentData.push(each.matricNo)
+    eachStudentData.push(each.status)
+    eachStudentData.push(each.groupID)
+    eachStudentData.push(each.classType)
+    eachStudentData.push('CZ3000')
+
+    data.push(eachStudentData)
+  })
+
+  result2.map(each => {
+    let eachStudentData = []
+    eachStudentData.push(each.matricNo)
+    eachStudentData.push(each.status)
+    eachStudentData.push(each.groupID)
+    eachStudentData.push('CZ3002')
+
+    data.push(eachStudentData)
+  })
+
+  setData(data)
 }
 
 export default ViewAttendancePage
