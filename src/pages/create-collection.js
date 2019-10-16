@@ -43,8 +43,6 @@ const IndexFacePage = () => {
 
       <Button content="List Faces" onClick={() => listFaces('Students')} />
 
-      <Button content="List Collections" onClick={() => listCollections()} />
-
       <Button content="SMS" onClick={() => sendSMS()} />
 
       <DrapDrop onFilesDrop={onFilesDrop} />
@@ -130,17 +128,6 @@ const singleImageIndex = async (collectionName, file) => {
   } catch (error) {
     console.log(error)
     return false
-  }
-}
-
-const listCollections = async () => {
-  try {
-    let response = await fetch(`${url}/listCollections`)
-    let result = await response.json()
-
-    console.log(result)
-  } catch (error) {
-    console.log(error)
   }
 }
 
