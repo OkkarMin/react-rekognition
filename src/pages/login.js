@@ -1,14 +1,6 @@
 import React, { useState } from 'react'
 import { navigate } from 'gatsby'
-import {
-  Button,
-  Container,
-  Form,
-  Grid,
-  Image,
-  Message,
-  Segment,
-} from 'semantic-ui-react'
+import { Button, Form, Grid, Image, Segment } from 'semantic-ui-react'
 
 import LoginErrorMessage from '../components/LoginErrorMessage'
 
