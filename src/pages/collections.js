@@ -10,9 +10,14 @@ const CollectionsPage = () => {
   const [data, setData] = useState(null)
 
   const fetchData = async () => {
-    let response = await fetch(`${url}/listCollections`)
-    let result = await response.json()
-    setData(result.CollectionIds)
+    try {
+      let response = await fetch(`${url}/listCollections`)
+      let result = await response.json()
+
+      setData(result.CollectionIds)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
