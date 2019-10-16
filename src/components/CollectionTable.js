@@ -13,9 +13,9 @@ const CollectionTable = props => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {data.map(collection => (
+          {data.map((collection, index) => (
             <Table.Row
-              key={collection.toString()}
+              key={index}
               onClick={() => onClick(collection.toString())}
             >
               <Table.Cell>{collection}</Table.Cell>

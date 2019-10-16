@@ -3,6 +3,7 @@ import { Loader } from 'semantic-ui-react'
 
 import Layout from '../components/layout'
 import CollectionTable from '../components/CollectionTable'
+import CollectionDetailsTable from '../components/CollectionStudentsListTable'
 
 const url = 'http://ec2-3-15-165-103.us-east-2.compute.amazonaws.com/api'
 
@@ -18,8 +19,6 @@ const CollectionsPage = () => {
       let result = await response.json()
 
       return result
-
-      // setCollections(result.CollectionIds)
     } catch (error) {
       console.log(error)
     }
@@ -50,8 +49,7 @@ const CollectionsPage = () => {
         <Loader active />
       )}
 
-      {facesData &&
-        facesData.map(eachFace => <div>{eachFace.ExternalImageId}</div>)}
+      {facesData && <CollectionDetailsTable data={facesData} />}
     </Layout>
   )
 }

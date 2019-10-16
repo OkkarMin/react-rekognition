@@ -42,6 +42,7 @@ const Layout = ({ children, data }) => (
                 <LinkedItem to="/rekognize">Recognize</LinkedItem>
                 <LinkedItem to="/404">404 Example Page</LinkedItem>
                 <LinkedItem to="/login">Login Page</LinkedItem>
+                <LinkedItem to="/login">Logout</LinkedItem>
               </Menu>
             </Grid.Column>
 
