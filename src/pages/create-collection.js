@@ -27,14 +27,13 @@ const IndexFacePage = () => {
 
   const onUpload = async () => {
     setIsUploading(true)
+    createCollection(collectionName)
+
+    files.map(async file => {
+      await singleImageIndex(collectionName, file)
+    })
+
     let numberOfFiles = files.length
-
-    await Promise.all(
-      files.map(async file => {
-        await singleImageIndex(file)
-      })
-    )
-
     updateUploadPercent(numberOfFiles, setUploadPercent)
   }
 
@@ -76,6 +75,27 @@ const IndexFacePage = () => {
   )
 }
 
+const createCollection = async collectionName => {
+  let payload = {
+    collectionName,
+  }
+
+  try {
+    let response = await fetch(`${url}/createCollection`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+
+    console.log(await response.text())
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const updateUploadPercent = async (numberOfFiles, setUploadPercent) => {
   let percentIncrement = 100 / numberOfFiles
 
@@ -87,10 +107,10 @@ const updateUploadPercent = async (numberOfFiles, setUploadPercent) => {
   }
 }
 
-const singleImageIndex = async file => {
+const singleImageIndex = async (collectionName, file) => {
   let imageInBase64 = await getBase64Stripped(file)
   let payload = {
-    collectionName: 'Students',
+    collectionName,
     name: file.name.split('-')[1].split('.')[0],
     image: imageInBase64,
   }
