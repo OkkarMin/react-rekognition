@@ -23,6 +23,10 @@ const RekognizePage = () => {
     files.map(async file => await rekognize(file))
   }
 
+  const onDetectFaces = () => {
+    files.map(async file => await detectFaces(file))
+  }
+
   return (
     <Layout>
       <Header as="h2">Rekognize</Header>
@@ -30,11 +34,19 @@ const RekognizePage = () => {
       <DrapDrop onFilesDrop={onFilesDrop} />
 
       {files && (
-        <Button
-          content="Rekognize"
-          floated="right"
-          onClick={() => onRekognize()}
-        />
+        <>
+          <Button
+            content="Rekognize"
+            floated="right"
+            onClick={() => onRekognize()}
+          />
+
+          <Button
+            content="Detect Faces"
+            floated="right"
+            onClick={() => onRekognize()}
+          />
+        </>
       )}
     </Layout>
   )
@@ -49,6 +61,30 @@ const rekognize = async file => {
 
   try {
     let response = await fetch(`${url}/recognize`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+
+    response = await response.text()
+    console.log(response)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const detectFaces = async file => {
+  let imageInBase64 = await getBase64Stripped(file)
+  let payload = {
+    collectionName: 'Students',
+    image: imageInBase64,
+  }
+
+  try {
+    let response = await fetch(`${url}/detectFaces`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
