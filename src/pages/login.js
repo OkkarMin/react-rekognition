@@ -56,13 +56,6 @@ const LoginPage = () => {
                   default:
                     setError(true)
                 }
-
-
-                // if (username === 'user1' && password === 'user1') {
-                //   navigate('/')
-                // } else {
-                //   setError(true)
-                // }
               }}
             >
               Login
