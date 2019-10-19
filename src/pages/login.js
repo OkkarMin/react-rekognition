@@ -43,11 +43,26 @@ const LoginPage = () => {
               fluid
               size="large"
               onClick={() => {
-                if (username === 'okkarmin' && password === 'iljy') {
-                  navigate('/')
-                } else {
-                  setError(true)
+                switch(username,password){
+                  case 'user1' && 'user1':
+                    navigate('/')
+                    break;
+                  case 'user2' && 'user2':
+                    navigate('/')
+                    break;
+                  case 'user3' && 'user3':
+                    navigate('/')
+                    break;
+                  default:
+                    setError(true)
                 }
+
+
+                // if (username === 'user1' && password === 'user1') {
+                //   navigate('/')
+                // } else {
+                //   setError(true)
+                // }
               }}
             >
               Login
