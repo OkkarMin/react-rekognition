@@ -247,7 +247,11 @@ const updateAttendance = async data => {
     endPointURL,
     payload
   ).then(result => {
-    if (!alert(`Changed ${payload.matricNo} status to ${payload.status}`)) {
+    if (
+      !alert(
+        `Changed ${payload.matricNo}'s ${payload.courseCode} ${payload.groupID} status to ${payload.status}`
+      )
+    ) {
       window.location.reload()
     }
   })
