@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Loader, Button } from 'semantic-ui-react'
+import { Loader } from 'semantic-ui-react'
 
 import MUIDataTable from 'mui-datatables'
 
@@ -7,7 +7,7 @@ import Layout from '../components/layout'
 
 const url = 'http://ec2-3-15-165-103.us-east-2.compute.amazonaws.com/api'
 
-//const columns = [ "Course code", "Group id",,"classtype" ,"matriculation No.","status"];
+//const columns = [ "Course code", "Group id", "classtype", "date", "matriculation No.","status"];
 const columns = [
   {
     name: 'course code',
@@ -34,6 +34,14 @@ const columns = [
     },
   },
   {
+    name: 'date',
+    label: 'Date',
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
     name: 'matriculation No.',
     label: 'Matriculation No.',
     options: {
@@ -52,7 +60,17 @@ const columns = [
 ]
 
 const options = {
-  filterType: 'checkbox',
+  onRowClick: rowData => {
+    let data = {}
+    data.courseCode = rowData[0]
+    data.groupID = rowData[1]
+    data.classType = rowData[2]
+    data.date = rowData[3]
+    data.matricNo = rowData[4]
+    data.status = rowData[5]
+
+    updateAttendance(data)
+  },
 }
 
 const ViewAttendancePage = () => {
@@ -112,6 +130,7 @@ const getAttendanceData = async setData => {
     eachStudentData.push('CZ3000')
     eachStudentData.push(each.groupID)
     eachStudentData.push(each.classType)
+    eachStudentData.push(each.date)
     eachStudentData.push(each.matricNo)
     eachStudentData.push(each.status)
 
@@ -123,6 +142,7 @@ const getAttendanceData = async setData => {
     eachStudentData.push('CZ3000')
     eachStudentData.push(each.groupID)
     eachStudentData.push(each.classType)
+    eachStudentData.push(each.date)
     eachStudentData.push(each.matricNo)
     eachStudentData.push(each.status)
 
@@ -134,6 +154,7 @@ const getAttendanceData = async setData => {
     eachStudentData.push('CZ2000')
     eachStudentData.push(each.groupID)
     eachStudentData.push(each.classType)
+    eachStudentData.push(each.date)
     eachStudentData.push(each.matricNo)
     eachStudentData.push(each.status)
 
@@ -145,6 +166,7 @@ const getAttendanceData = async setData => {
     eachStudentData.push('CZ2000')
     eachStudentData.push(each.groupID)
     eachStudentData.push(each.classType)
+    eachStudentData.push(each.date)
     eachStudentData.push(each.matricNo)
     eachStudentData.push(each.status)
 
@@ -156,6 +178,7 @@ const getAttendanceData = async setData => {
     eachStudentData.push('CZ2000')
     eachStudentData.push(each.groupID)
     eachStudentData.push(each.classType)
+    eachStudentData.push(each.date)
     eachStudentData.push(each.matricNo)
     eachStudentData.push(each.status)
 
@@ -167,6 +190,7 @@ const getAttendanceData = async setData => {
     eachStudentData.push('CZ2000')
     eachStudentData.push(each.groupID)
     eachStudentData.push(each.classType)
+    eachStudentData.push(each.date)
     eachStudentData.push(each.matricNo)
     eachStudentData.push(each.status)
 
@@ -178,12 +202,55 @@ const getAttendanceData = async setData => {
     eachStudentData.push('CZ2000')
     eachStudentData.push(each.groupID)
     eachStudentData.push(each.classType)
+    eachStudentData.push(each.date)
     eachStudentData.push(each.matricNo)
     eachStudentData.push(each.status)
 
     data.push(eachStudentData)
   })
   setData(data)
+}
+
+const putData = async (url, endpoint, payload) => {
+  try {
+    let response = await fetch(`${url}${endpoint}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+
+    return await response.json()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const updateAttendance = async data => {
+  let endPointURL = `/updateStudentAttendance`
+  let payload = {
+    courseCode: data.courseCode,
+    groupID: data.groupID,
+    classType: data.classType,
+    date: data.date,
+    status: data.status === 'Absent' ? 'Present' : 'Absent',
+    acadYear: '2019',
+    semester: '1',
+    matricNo: data.matricNo,
+    remarks: 'nil',
+  }
+
+  putData(
+    'http://ec2-3-15-165-103.us-east-2.compute.amazonaws.com/api',
+    endPointURL,
+    payload
+  ).then(result => {
+    if (!alert(`Changed ${payload.matricNo} status to ${payload.status}`)) {
+      window.location.reload()
+    }
+  })
 }
 
 export default ViewAttendancePage
