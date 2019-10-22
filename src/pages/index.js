@@ -1,35 +1,28 @@
 import React from 'react'
 
-import { Button } from 'semantic-ui-react'
+
 import Layout from '../components/layout'
 
 const IndexPage = () => (
   <Layout>
     <h2>
-      <span role="img" aria-label="Waving hand">
-        👋
-      </span>{' '}
-      Hey there!
+      Hello!
     </h2>
 
-    <p>
-      Welcome to this humble Gatsby Semantic UI starter. It is a very thin layer
-      on top of the regular Gatsby 2 starter. All that has been added is
-      Semantic UI as the component library of choice.
-    </p>
+    Everything is pre set-up and ready to go! All you need to do is to upload the course student list containing student matriculation ids and the student’s pictures.
 
-    <p>
-      Everything is pre-setup and ready to go. You can either use the default
-      Semantic UI theme as it currently runs, or you can override all variables
-      and make custom CSS changes in the <code>src/semantic/site</code> folder.
-    </p>
-
-    <p>
-      The folder contains all the standard settings of the default theme so you
-      don't have to remember which variables are available.
-    </p>
-
-    <Button primary>I'm a button!</Button>
+     <br/>
+    <br />
+     
+             Once done, enjoy our efficient system of keeping track of student’s attendance. 
+               <br />
+             Thank you for using our services and have a fabulous day!
+             <br />
+    <br />
+             Best Regards,
+             <br />
+             ASEFaceRekog
+ 
   </Layout>
 )
 
